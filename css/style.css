@@ -685,6 +685,14 @@ p.signed::before {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   }
 
+  /* Fix clipping for sharp corners inside rounded container */
+  #card-inside .wrap,
+  #card-front .wrap,
+  #card-front:before,
+  #card-front::after {
+    border-radius: 12px;
+  }
+
   #card-inside {
     top: 48vh;
   }
@@ -807,12 +815,22 @@ p.signed::before {
     border-width: 4px;
     border-bottom-width: 22px;
   }
-  
-  .polaroid-left { transform: rotate(-2deg); }
-  .polaroid-right { transform: rotate(2deg); }
-  
-  .polaroid-left:hover { transform: rotate(0deg) scale(1.05); }
-  .polaroid-right:hover { transform: rotate(0deg) scale(1.05); }
+
+  .polaroid-left {
+    transform: rotate(-2deg);
+  }
+
+  .polaroid-right {
+    transform: rotate(2deg);
+  }
+
+  .polaroid-left:hover {
+    transform: rotate(0deg) scale(1.05);
+  }
+
+  .polaroid-right:hover {
+    transform: rotate(0deg) scale(1.05);
+  }
 
   .caption {
     font-size: 10px;
