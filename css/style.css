@@ -689,12 +689,18 @@ p.signed::before {
   #card-inside .wrap,
   #card-front .wrap,
   #card-front:before,
-  #card-front::after {
-    border-radius: 12px;
+  #card-front::after,
+  .card-front_inside,
+  .shadow {
+    border-radius: 12px !important;
   }
 
   #card-inside {
     top: 48vh;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    -webkit-backface-visibility: hidden;
+    -webkit-transform: translate3d(0, 0, 0);
   }
 
   #card-front {
