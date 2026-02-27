@@ -1,0 +1,794 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Dancing+Script:wght@700&family=Lato:wght@300;400&display=swap');
+
+* {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== BACKGROUND ===== */
+body {
+  background: #0d0015;
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(120, 0, 80, 0.4) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(80, 0, 120, 0.4) 0%, transparent 60%),
+    radial-gradient(ellipse at 60% 80%, rgba(160, 0, 60, 0.3) 0%, transparent 50%);
+  min-height: 100vh;
+  overflow: hidden;
+  font-family: 'Lato', sans-serif;
+}
+
+/* ===== FLOATING HEARTS CANVAS ===== */
+#hearts-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ===== CARD STRUCTURE ===== */
+#card,
+#card-front,
+#card-inside {
+  height: 600px;
+}
+
+#card {
+  width: 960px;
+  margin: auto;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  -webkit-perspective: 5000px;
+  perspective: 5000px;
+  -webkit-transform: translateX(-25%);
+  transform: translateX(-25%);
+  -webkit-transition: -webkit-transform 1s ease-in-out;
+  transition: transform 1s ease-in-out;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 10;
+}
+
+#card-front,
+#card-inside {
+  width: 50%;
+  box-shadow:
+    0 0 60px rgba(220, 0, 100, 0.4),
+    0 0 120px rgba(150, 0, 200, 0.2),
+    2px 2px 30px rgba(0, 0, 0, 0.6),
+    0 0 1px rgba(0, 0, 0, 0.5);
+  position: absolute;
+  left: 50%;
+}
+
+/* ===== FRONT CARD ===== */
+#card-front {
+  background: linear-gradient(145deg, #1a0030 0%, #3d0050 30%, #6b003a 60%, #a0003c 100%);
+  -webkit-transform-origin: left;
+  transform-origin: left;
+  -webkit-transition: -webkit-transform 1s linear;
+  transition: transform 1s linear;
+  position: relative;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  -webkit-perspective: 5000px;
+  perspective: 5000px;
+  border-right: 1px solid rgba(255, 100, 180, 0.3);
+  color: #FFDFDF;
+  z-index: 10;
+}
+
+/* Shimmer overlay on front */
+#card-front::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg,
+      transparent 40%,
+      rgba(255, 180, 220, 0.06) 50%,
+      transparent 60%);
+  background-size: 200% 200%;
+  animation: shimmer 4s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes shimmer {
+
+  0%,
+  100% {
+    background-position: 200% 0;
+  }
+
+  50% {
+    background-position: -200% 0;
+  }
+}
+
+#card-front:before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: block;
+  background-color: #1a0030;
+  -webkit-transform: translateZ(-1px);
+  transform: translateZ(-1px);
+}
+
+#card-front .wrap {
+  -webkit-transition: background 1s linear;
+  transition: background 1s linear;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  padding: 1.5em 2.5em;
+  height: 100%;
+}
+
+/* ===== INSIDE CARD ===== */
+#card-inside {
+  font-size: 1.15em;
+  line-height: 1.7;
+  font-family: 'Lato', sans-serif;
+  color: #3d001a;
+}
+
+#card-inside .wrap {
+  background: linear-gradient(160deg, #fff5f9 0%, #ffe0ee 50%, #ffd0e8 100%);
+  box-shadow: inset 2px 0 1px rgba(0, 0, 0, 0.05);
+  padding: 1.5em 2.5em;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+#card-inside .wrap::before {
+  content: '♥';
+  position: absolute;
+  font-size: 300px;
+  color: rgba(220, 0, 80, 0.04);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  font-family: serif;
+}
+
+/* ===== HEADING ===== */
+#card h1 {
+  text-align: center;
+  font-family: 'Dancing Script', cursive;
+  font-size: 58px;
+  font-weight: 700;
+  color: #fff;
+  text-shadow:
+    0 0 20px rgba(255, 100, 180, 0.9),
+    0 0 40px rgba(255, 50, 150, 0.6),
+    0 0 80px rgba(200, 0, 100, 0.4),
+    2px 2px 0 rgba(0, 0, 0, 0.3);
+  animation: glow-pulse 2.5s ease-in-out infinite;
+  position: relative;
+  z-index: 2;
+  line-height: 1.2;
+  margin-top: 0.8em;
+}
+
+@keyframes glow-pulse {
+
+  0%,
+  100% {
+    text-shadow:
+      0 0 20px rgba(255, 100, 180, 0.9),
+      0 0 40px rgba(255, 50, 150, 0.6),
+      0 0 80px rgba(200, 0, 100, 0.4);
+  }
+
+  50% {
+    text-shadow:
+      0 0 30px rgba(255, 150, 200, 1),
+      0 0 60px rgba(255, 80, 180, 0.9),
+      0 0 120px rgba(220, 0, 120, 0.6);
+  }
+}
+
+/* ===== INSIDE MESSAGE TEXT ===== */
+#card-inside .wishesFont {
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+  font-size: 0.95em;
+  color: #5a002a;
+  line-height: 1.9;
+}
+
+#card-inside .wishesFont p {
+  margin-top: 1.1em;
+  padding: 0.6em 0.8em;
+  border-left: 3px solid rgba(200, 0, 80, 0.3);
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 0 8px 8px 0;
+  font-style: italic;
+}
+
+#card-inside .wishesFont p:first-child {
+  margin-top: 0;
+}
+
+.signature-wrap {
+  margin-top: 2em;
+  text-align: center;
+}
+
+p.signed {
+  display: inline-block;
+  padding: 8px 25px;
+  background: linear-gradient(135deg, rgba(255, 100, 180, 0.1), rgba(255, 50, 150, 0.05));
+  border: 1px solid rgba(255, 100, 180, 0.3);
+  border-radius: 30px;
+  font-family: 'Dancing Script', cursive;
+  font-weight: bold;
+  font-size: 1.4em;
+  color: #8b003a;
+  text-shadow: 0 0 10px rgba(255, 20, 147, 0.4);
+  box-shadow:
+    0 4px 15px rgba(255, 20, 147, 0.1),
+    inset 0 0 10px rgba(255, 255, 255, 0.5);
+  transform: rotate(-1deg);
+  position: relative;
+}
+
+p.signed::before {
+  content: '🖋️';
+  position: absolute;
+  left: -25px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+/* ===== OPEN / CLOSE BUTTONS ===== */
+#card-front button {
+  position: absolute;
+  bottom: 1em;
+  right: -18px;
+  background: linear-gradient(135deg, #e91e8c, #c2185b);
+  color: #fff;
+  font-family: 'Dancing Script', cursive;
+  font-weight: bold;
+  font-size: 1.6em;
+  padding: 0.4em 0.7em;
+  border: none;
+  cursor: pointer;
+  border-radius: 50%;
+  box-shadow:
+    0 0 15px rgba(233, 30, 140, 0.7),
+    0 0 30px rgba(233, 30, 140, 0.4),
+    2px 2px 6px rgba(0, 0, 0, 0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  z-index: 20;
+  animation: btn-pulse 2s ease-in-out infinite;
+}
+
+@keyframes btn-pulse {
+
+  0%,
+  100% {
+    box-shadow: 0 0 15px rgba(233, 30, 140, 0.7), 0 0 30px rgba(233, 30, 140, 0.4);
+  }
+
+  50% {
+    box-shadow: 0 0 25px rgba(233, 30, 140, 1), 0 0 50px rgba(233, 30, 140, 0.7);
+  }
+}
+
+#card-front button:hover,
+#card-front button:focus {
+  transform: scale(1.15);
+  box-shadow:
+    0 0 25px rgba(233, 30, 140, 1),
+    0 0 50px rgba(233, 30, 140, 0.6);
+}
+
+/* ===== YEAR BADGE ===== */
+.year-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, rgba(255, 200, 100, 0.2), rgba(255, 150, 50, 0.15));
+  border: 1px solid rgba(255, 200, 100, 0.4);
+  color: #ffd700;
+  font-family: 'Playfair Display', serif;
+  font-size: 13px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 5px 18px;
+  border-radius: 20px;
+  margin: 0 auto 8px;
+  display: block;
+  text-align: center;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+  animation: badge-glow 2s ease-in-out infinite;
+  position: relative;
+  z-index: 2;
+}
+
+@keyframes badge-glow {
+
+  0%,
+  100% {
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+  }
+
+  50% {
+    text-shadow: 0 0 20px rgba(255, 215, 0, 1), 0 0 40px rgba(255, 180, 0, 0.5);
+  }
+}
+
+/* ===== DECORATIVE DIVIDER ===== */
+.heart-divider {
+  text-align: center;
+  color: rgba(255, 100, 180, 0.7);
+  font-size: 20px;
+  letter-spacing: 8px;
+  margin: 6px 0 10px;
+  animation: divider-fade 3s ease-in-out infinite;
+  position: relative;
+  z-index: 2;
+}
+
+@keyframes divider-fade {
+
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+/* ===== CARD STATES ===== */
+#close {
+  display: none;
+}
+
+#card.open-fully {
+  -webkit-transform: translateX(0%);
+  transform: translateX(0%);
+}
+
+#card.open-fully #close,
+#card-open-half #close {
+  display: inline;
+}
+
+#card.open-fully #open {
+  display: none;
+}
+
+#card.open-half #card-front,
+#card.close-half #card-front {
+  -webkit-transform: rotateY(-90deg);
+  transform: rotateY(-90deg);
+}
+
+#card.open-half .shadow {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+#card.open-fully #card-front,
+#card.close-half #card-front {
+  background: linear-gradient(160deg, #fff5f9 0%, #ffe0ee 100%);
+}
+
+#card.open-fully #card-front {
+  -webkit-transform: rotateY(-180deg);
+  transform: rotateY(-180deg);
+}
+
+#card.open-fully .shadow {
+  background-color: rgba(0, 0, 0, 0);
+}
+
+/* ===== CAKE ===== */
+.cake_and_velas {
+  position: absolute;
+  bottom: 18%;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+}
+
+#cake {
+  display: block;
+  position: relative;
+  margin: -10em auto 0 auto;
+  filter: drop-shadow(0 0 20px rgba(255, 100, 180, 0.4));
+}
+
+.velas {
+  background: linear-gradient(to bottom, #ffe4b5, #ffffff);
+  border-radius: 10px;
+  position: absolute;
+  top: 228px;
+  left: 50%;
+  margin-left: -2.4px;
+  margin-top: -8.33333333px;
+  width: 5px;
+  height: 35px;
+  -webkit-transform: translateY(-300px);
+  transform: translateY(-300px);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-animation: in 500ms 5s ease-out forwards;
+  animation: in 500ms 5s ease-out forwards;
+}
+
+.velas:after,
+.velas:before {
+  background: rgba(220, 50, 100, 0.5);
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2.22222222px;
+}
+
+.velas:after {
+  top: 25%;
+  left: 0;
+}
+
+.velas:before {
+  top: 45%;
+  left: 0;
+}
+
+/* ===== FIRE ===== */
+.fuego {
+  border-radius: 100%;
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  margin-left: -2.6px;
+  width: 6.66666667px;
+  height: 18px;
+}
+
+.fuego:nth-child(1) {
+  animation: fuego 2s 5.5s infinite;
+}
+
+.fuego:nth-child(2) {
+  animation: fuego 1.5s 5.5s infinite;
+}
+
+.fuego:nth-child(3) {
+  animation: fuego 1s 5.5s infinite;
+}
+
+.fuego:nth-child(4) {
+  animation: fuego 0.5s 5.5s infinite;
+}
+
+.fuego:nth-child(5) {
+  animation: fuego 0.2s 5.5s infinite;
+}
+
+@keyframes fuego {
+
+  0%,
+  100% {
+    background: rgba(254, 248, 97, 0.9);
+    box-shadow: 0 0 20px 6px rgba(255, 180, 50, 0.6);
+    transform: translateY(0) scale(1);
+  }
+
+  50% {
+    background: rgba(255, 100, 0, 0.4);
+    box-shadow: 0 0 30px 10px rgba(255, 100, 0, 0.3);
+    transform: translateY(-20px) scale(0);
+  }
+}
+
+@keyframes in {
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* ===== CARD FRONT INSIDE (polaroid side) ===== */
+.card-front_inside {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 92%;
+  width: 88%;
+  margin: auto;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform: translateZ(-1px) rotateY(180deg);
+  transform: translateZ(-1px) rotateY(180deg);
+  background: linear-gradient(160deg, #fff0f7 0%, #ffd6ec 100%);
+  border-radius: 4px;
+}
+
+.shadow {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform: translateZ(-2px) rotateY(180deg);
+  transform: translateZ(-2px) rotateY(180deg);
+  pointer-events: none;
+  -webkit-transition: background 1s linear;
+  transition: background 1s linear;
+}
+
+/* ===== POLAROIDS WRAPPER ===== */
+.polaroids-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+}
+
+/* ===== POLAROID ===== */
+.polaroid {
+  width: 170px;
+  height: 227px;
+  background: #1e1c18;
+  border: 6px solid #fff;
+  border-bottom: 42px solid #fff;
+  box-shadow:
+    0 8px 25px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(0, 0, 0, 0.1),
+    0 0 16px rgba(220, 0, 80, 0.2);
+  overflow: visible;
+  flex-shrink: 0;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.polaroid-left {
+  transform: rotate(-3deg);
+}
+
+.polaroid-right {
+  transform: rotate(3deg);
+}
+
+.polaroid-left:hover,
+.polaroid-right:hover {
+  transform: rotate(0deg) scale(1.06);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45), 0 0 25px rgba(220, 0, 80, 0.4);
+}
+
+.polaroid img,
+.polaroid .img {
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  background-position: center;
+  background-size: cover;
+  animation: fade-in 2s ease-in;
+  animation-iteration-count: 1;
+}
+
+.caption {
+  position: absolute;
+  bottom: -32px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  color: #222;
+  font-family: 'Dancing Script', cursive;
+  font-size: 15px;
+  line-height: 1;
+  font-weight: bold;
+  pointer-events: none;
+  z-index: 5;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* ===== INSIDE MESSAGE TITLE ===== */
+.inside-title {
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.8em;
+  color: #c2185b;
+  text-align: center;
+  margin-bottom: 0.5em;
+  text-shadow: 0 0 10px rgba(194, 24, 91, 0.3);
+}
+
+/* ===== WRAP ===== */
+.wrap {
+  padding: 1.2em 2em;
+  height: 100%;
+}
+
+/* ===== STARS ===== */
+.star {
+  position: fixed;
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+  animation: twinkle 3s ease-in-out infinite;
+  z-index: 0;
+}
+
+@keyframes twinkle {
+
+  0%,
+  100% {
+    opacity: 0.1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.8;
+    transform: scale(1.5);
+  }
+}
+
+/* ===== MOBILE RESPONSIVE LAYOUT (VERTICAL FLIP) ===== */
+@media (max-width: 768px) {
+  #card {
+    width: 90vw;
+    height: 100vh;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    transform: none !important;
+    perspective: 1500px;
+  }
+
+  /* Both halves are 46vh tall. Bottom half is the cover, top is the inside text. */
+  #card-front,
+  #card-inside {
+    width: 100%;
+    height: 46vh;
+    left: 0;
+    top: 48vh;
+    /* Bottom half of the viewport */
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  #card-inside {
+    top: 48vh;
+  }
+
+  #card-front {
+    transform-origin: top;
+    /* Hinge is at the top edge */
+    border-right: none;
+    border-top: 1px solid rgba(255, 100, 180, 0.4);
+  }
+
+  /* Vertical Flip Mechanics */
+  #card.open-half #card-front,
+  #card.close-half #card-front {
+    transform: rotateX(90deg) !important;
+  }
+
+  #card.open-fully #card-front {
+    transform: rotateX(180deg) !important;
+  }
+
+  #card.open-half .shadow {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  /* Fix the back face (polaroids panel) to be upright after vertical flip */
+  .card-front_inside {
+    transform: translateZ(-2px) rotateX(180deg) !important;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+  }
+
+  .shadow {
+    transform: translateZ(-3px) rotateX(180deg) !important;
+    border-radius: 12px;
+  }
+
+  /* Scale down the cake and adjust cover text */
+  .cake_and_velas {
+    transform: scale(0.65);
+    bottom: -15%;
+  }
+
+  #card h1 {
+    font-size: 38px;
+    margin-top: 0.2em;
+    padding: 0 10px;
+  }
+
+  .year-badge {
+    font-size: 11px;
+    padding: 4px 14px;
+    margin-bottom: 5px;
+  }
+
+  .heart-divider {
+    font-size: 14px;
+    margin: 4px 0;
+  }
+
+  /* Adjust Toggle Buttons for mobile */
+  #card-front button {
+    bottom: -15px;
+    right: 15px;
+    font-size: 1.4em;
+    padding: 0.3em 0.6em;
+    border-radius: 50%;
+  }
+
+  /* Adjust inside text scrolling and sizing */
+  #card-inside .wrap {
+    padding: 1.2em;
+    overflow-y: auto;
+  }
+
+  #card-inside p {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-top: 0.6em;
+  }
+
+  .signature-wrap {
+    margin-top: 1em;
+  }
+
+  p.signed {
+    font-size: 1.3em;
+    padding: 6px 20px;
+  }
+
+  /* Scale down Polaroids to fit the mobile back-panel comfortably */
+  .polaroids-wrap {
+    gap: 8px;
+    width: 98%;
+  }
+
+  .polaroid {
+    width: 130px;
+    height: 173px;
+    border-bottom: 28px solid #fff;
+  }
+
+  .caption {
+    font-size: 12px;
+    bottom: -24px;
+  }
+}
