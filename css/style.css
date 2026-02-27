@@ -668,15 +668,16 @@ p.signed::before {
     left: 0;
     right: 0;
     margin: 0 auto;
+    -webkit-transform: none !important;
     transform: none !important;
     perspective: 1500px;
   }
 
-  /* Both halves are 46vh tall. Bottom half is the cover, top is the inside text. */
+  /* Both halves are 44vh tall. Bottom half is the cover, top is the inside text. */
   #card-front,
   #card-inside {
     width: 100%;
-    height: 46vh;
+    height: 44vh;
     left: 0;
     top: 48vh;
     /* Bottom half of the viewport */
@@ -725,11 +726,11 @@ p.signed::before {
   /* Scale down the cake and adjust cover text */
   .cake_and_velas {
     transform: scale(0.65);
-    bottom: -15%;
+    bottom: -10%;
   }
 
   #card h1 {
-    font-size: 38px;
+    font-size: 32px;
     margin-top: 0.2em;
     padding: 0 10px;
   }
@@ -747,11 +748,27 @@ p.signed::before {
 
   /* Adjust Toggle Buttons for mobile */
   #card-front button {
-    bottom: -15px;
-    right: 15px;
     font-size: 1.4em;
     padding: 0.3em 0.6em;
     border-radius: 50%;
+    z-index: 30;
+  }
+
+  #card-front button#open {
+    bottom: 15px;
+    right: 15px;
+  }
+
+  #card-front button#close {
+    transform: rotateX(180deg);
+    bottom: auto;
+    top: 15px;
+    right: 15px;
+  }
+
+  #card-front button#close:hover,
+  #card-front button#close:focus {
+    transform: rotateX(180deg) scale(1.15);
   }
 
   /* Adjust inside text scrolling and sizing */
@@ -761,8 +778,8 @@ p.signed::before {
   }
 
   #card-inside p {
-    font-size: 16px;
-    line-height: 1.6;
+    font-size: 15px;
+    line-height: 1.5;
     margin-top: 0.6em;
   }
 
@@ -775,20 +792,30 @@ p.signed::before {
     padding: 6px 20px;
   }
 
-  /* Scale down Polaroids to fit the mobile back-panel comfortably */
+  /* Convert Polaroids to horizontal row layout for mobile to prevent overflow */
   .polaroids-wrap {
+    flex-direction: row;
+    justify-content: space-around;
     gap: 8px;
-    width: 98%;
+    width: 95%;
   }
 
   .polaroid {
-    width: 130px;
-    height: 173px;
-    border-bottom: 28px solid #fff;
+    width: 44%;
+    height: auto;
+    aspect-ratio: 3 / 4;
+    border-width: 4px;
+    border-bottom-width: 22px;
   }
+  
+  .polaroid-left { transform: rotate(-2deg); }
+  .polaroid-right { transform: rotate(2deg); }
+  
+  .polaroid-left:hover { transform: rotate(0deg) scale(1.05); }
+  .polaroid-right:hover { transform: rotate(0deg) scale(1.05); }
 
   .caption {
-    font-size: 12px;
-    bottom: -24px;
+    font-size: 10px;
+    bottom: -18px;
   }
 }
